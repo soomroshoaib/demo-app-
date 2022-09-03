@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="signup(); return false">
+    <label for="fullName">Enter  Your Fullname  </label> 
+    <input type="text" id="fullname" /><br />
+    
+    <label for="userName"> Enter your user name </label> 
+    <input type="text"  id="userName"><br />
+
+    <label for="Password"> Enter your Password </label> 
+    <input type="password"  id="password">
+
+        <input type="submit"  value="Signup">
+     </form>
+
+      <p id="messege">
+
+      </p>
+     <br />
+     <br />
+     <br />
+     <br />
+
+     <button onclick="getAlluser();">
+         get All User 
+     </button>
+
+     <p id="useList">
+
+     </p>
+     
+
+
+
+     <script>
+      function signup(){
+
+            var fullName = document.getElementById("fullname").value;
+            var userName = document.getElementById("userName").value;
+            var password = document.getElementById("password").value;
+
+
+            axios.post('https://node-express-restfull-api12.herokuapp.com/user', {
+              'fullName': fullName,
+               'userName': userName,
+              'password': password
+          })
+            .then(function (res) {
+             console.log(res.data);
+             document.querySelector("#messege").innerHTML += res.data
+
+          })
+               .catch(function (err) {
+            console.log(err.message);
+              });
+
+        }
+               
+        function getAlluser(){
+
+          axios.get("https://node-express-restfull-api12.herokuapp.com/user")
+           .then(function(res){
+            console.log(res.data)
+            res.data.map(users =>{
+              document.querySelector('#useList').innerHTML += 
+                `Full-Nmae :  ${users.fullName} userNmae :  ${users.userName} password:  ${users.password}  <br /> `
+            })
+           })
+        }
+         
+
+
+     </script>
+
+</body>
+</html>
